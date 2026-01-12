@@ -17,7 +17,7 @@ A minimal Chrome extension that protects your privacy when using ChatGPT, Claude
 - One-click redaction of detected sensitive data
 - Click any flagged item to redact individually
 - "Redact All" button for bulk protection
-- Keyboard shortcut: `Cmd/Ctrl + Shift + R`
+- Keyboard shortcut: `Cmd/Ctrl + Shift + P`
 
 ### Risk Explanations
 - Click on detected items to understand *why* they're flagged
@@ -66,7 +66,7 @@ A minimal Chrome extension that protects your privacy when using ChatGPT, Claude
 
 | Action | Mac | Windows/Linux |
 |--------|-----|---------------|
-| Redact All | `Cmd + Shift + R` | `Ctrl + Shift + R` |
+| Redact All | `Cmd + Shift + P` | `Ctrl + Shift + P` |
 | Ghost Mode | `Cmd + Shift + G` | `Ctrl + Shift + G` |
 | Close/Dismiss | `Escape` | `Escape` |
 

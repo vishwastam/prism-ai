@@ -60,7 +60,7 @@ Auto Dark/Light Mode
 Automatically matches your AI chat's theme.
 
 Keyboard Shortcuts
-- Cmd/Ctrl + Shift + R → Redact All
+- Cmd/Ctrl + Shift + P → Redact All (Protect)
 - Cmd/Ctrl + Shift + G → Toggle Ghost Mode
 
 100% PRIVATE:

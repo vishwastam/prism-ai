@@ -706,8 +706,8 @@ class PrismAI {
 
   setupKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
-      // Cmd/Ctrl + Shift + R = Redact All
-      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'r') {
+      // Cmd/Ctrl + Shift + P = Redact All (Protect)
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'p') {
         e.preventDefault();
         this.redactAll();
       }
