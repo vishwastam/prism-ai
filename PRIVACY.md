@@ -50,7 +50,7 @@ Prism AI does NOT integrate with any third-party services. We have:
 ## Open Source
 
 Prism AI is open source. You can audit our code at:
-https://github.com/vishyarjern/prism-ai
+https://github.com/vishwastam/prism-ai
 
 ## Children's Privacy
 

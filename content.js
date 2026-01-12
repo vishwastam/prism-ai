@@ -16,11 +16,13 @@ class PrismAI {
       isDarkMode: false,
       detections: [],
       activeTooltip: null,
+      hasRedactedBefore: false,
     };
 
     this.elements = {
       pill: null,
       tooltip: null,
+      successBanner: null,
     };
 
     this.debounceTimer = null;
@@ -642,6 +644,9 @@ class PrismAI {
 
     // Trigger input event to re-analyze
     element.dispatchEvent(new Event('input', { bubbles: true }));
+
+    // Show first redaction success banner
+    this.showFirstRedactionSuccess();
   }
 
   redactAll() {
@@ -671,6 +676,9 @@ class PrismAI {
     // Trigger input event
     input.dispatchEvent(new Event('input', { bubbles: true }));
     this.collapsePill();
+
+    // Show first redaction success banner
+    this.showFirstRedactionSuccess();
   }
 
   // ========================================
@@ -725,11 +733,72 @@ class PrismAI {
   }
 
   loadStats() {
-    chrome.storage?.local?.get(['prismStats'], (result) => {
+    chrome.storage?.local?.get(['prismStats', 'hasRedactedBefore'], (result) => {
       if (result?.prismStats) {
         this.state.stats = result.prismStats;
       }
+      if (result?.hasRedactedBefore) {
+        this.state.hasRedactedBefore = true;
+      }
     });
+  }
+
+  // ========================================
+  // Success Banner (First Redaction)
+  // ========================================
+
+  showFirstRedactionSuccess() {
+    if (this.state.hasRedactedBefore) return;
+
+    this.state.hasRedactedBefore = true;
+    chrome.storage?.local?.set({ hasRedactedBefore: true });
+
+    // Create success banner
+    const banner = document.createElement('div');
+    banner.className = 'prism-success-banner';
+    banner.innerHTML = `
+      <div class="prism-success-content">
+        <div class="prism-success-icon">🎉</div>
+        <div class="prism-success-text">
+          <div class="prism-success-title">Privacy Protected!</div>
+          <div class="prism-success-subtitle">Your first redaction with Prism AI</div>
+        </div>
+        <button class="prism-success-close" data-action="close">×</button>
+      </div>
+      <div class="prism-success-share">
+        <span>Help others stay safe:</span>
+        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent("Just protected my privacy with Prism AI! 🛡️ A free Chrome extension that detects sensitive data before you share it with ChatGPT & Claude.")}&url=${encodeURIComponent("https://github.com/vishwastam/prism-ai")}" target="_blank" class="prism-share-btn twitter">
+          Share on 𝕏
+        </a>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+    this.elements.successBanner = banner;
+
+    // Animate in
+    requestAnimationFrame(() => banner.classList.add('show'));
+
+    // Event listeners
+    banner.addEventListener('click', (e) => {
+      const action = e.target.closest('[data-action]')?.dataset.action;
+      if (action === 'close') {
+        this.hideSuccessBanner();
+      }
+    });
+
+    // Auto-dismiss after 8 seconds
+    setTimeout(() => this.hideSuccessBanner(), 8000);
+  }
+
+  hideSuccessBanner() {
+    if (this.elements.successBanner) {
+      this.elements.successBanner.classList.remove('show');
+      setTimeout(() => {
+        this.elements.successBanner?.remove();
+        this.elements.successBanner = null;
+      }, 300);
+    }
   }
 
   // ========================================

@@ -543,6 +543,118 @@
 }
 
 /* ========================================
+   Success Banner (First Redaction)
+   ======================================== */
+
+.prism-success-banner {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 2147483646;
+  width: 300px;
+  background: var(--prism-bg);
+  border: 1px solid var(--prism-border);
+  border-radius: 16px;
+  box-shadow: var(--prism-shadow-hover);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.3s var(--prism-spring);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+.prism-success-banner.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.prism-success-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--prism-border);
+}
+
+.prism-success-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.prism-success-text {
+  flex: 1;
+}
+
+.prism-success-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--prism-text);
+  margin-bottom: 2px;
+}
+
+.prism-success-subtitle {
+  font-size: 12px;
+  color: var(--prism-text-secondary);
+}
+
+.prism-success-close {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--prism-bg-secondary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--prism-text-secondary);
+  font-size: 16px;
+  transition: all var(--prism-transition);
+  flex-shrink: 0;
+}
+
+.prism-success-close:hover {
+  background: var(--prism-border);
+  color: var(--prism-text);
+}
+
+.prism-success-share {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+}
+
+.prism-success-share span {
+  font-size: 12px;
+  color: var(--prism-text-secondary);
+}
+
+.prism-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--prism-transition);
+}
+
+.prism-share-btn.twitter {
+  background: #1DA1F2;
+  color: white;
+}
+
+.prism-share-btn.twitter:hover {
+  background: #0d8bd9;
+  transform: translateY(-1px);
+}
+
+/* ========================================
    Responsive
    ======================================== */
 
