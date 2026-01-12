@@ -1,0 +1,559 @@
+/* Prism AI - Tier 1 Design System */
+
+/* ========================================
+   CSS Custom Properties (Theme Tokens)
+   ======================================== */
+
+:root {
+  /* Light mode (default) */
+  --prism-bg: rgba(255, 255, 255, 0.98);
+  --prism-bg-hover: rgba(255, 255, 255, 1);
+  --prism-bg-secondary: rgba(0, 0, 0, 0.04);
+  --prism-text: #1a1a1a;
+  --prism-text-secondary: #666666;
+  --prism-border: rgba(0, 0, 0, 0.08);
+  --prism-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  --prism-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.16);
+
+  /* Risk colors - consistent across themes */
+  --prism-critical: #ef4444;
+  --prism-critical-bg: rgba(239, 68, 68, 0.12);
+  --prism-sensitive: #f59e0b;
+  --prism-sensitive-bg: rgba(245, 158, 11, 0.12);
+  --prism-contextual: #3b82f6;
+  --prism-contextual-bg: rgba(59, 130, 246, 0.12);
+  --prism-safe: #22c55e;
+  --prism-safe-bg: rgba(34, 197, 94, 0.12);
+
+  /* Animation */
+  --prism-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --prism-spring: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Dark mode */
+[data-prism-theme="dark"] {
+  --prism-bg: rgba(32, 32, 32, 0.98);
+  --prism-bg-hover: rgba(40, 40, 40, 1);
+  --prism-bg-secondary: rgba(255, 255, 255, 0.06);
+  --prism-text: #f0f0f0;
+  --prism-text-secondary: #a0a0a0;
+  --prism-border: rgba(255, 255, 255, 0.1);
+  --prism-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --prism-shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   Pill HUD - Collapsed State
+   ======================================== */
+
+#prism-pill {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.prism-pill-collapsed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--prism-bg);
+  border: 1px solid var(--prism-border);
+  border-radius: 100px;
+  box-shadow: var(--prism-shadow);
+  cursor: pointer;
+  transition: all var(--prism-transition);
+  user-select: none;
+}
+
+.prism-pill-collapsed:hover {
+  background: var(--prism-bg-hover);
+  box-shadow: var(--prism-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.prism-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background var(--prism-transition);
+}
+
+.prism-status-dot.safe { background: var(--prism-safe); }
+.prism-status-dot.caution { background: var(--prism-sensitive); }
+.prism-status-dot.alert { background: var(--prism-critical); }
+
+.prism-status-dot.pulse {
+  animation: prism-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes prism-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.15); }
+}
+
+.prism-score-display {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--prism-text);
+  min-width: 24px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.prism-logo-mini {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* ========================================
+   Pill HUD - Expanded State
+   ======================================== */
+
+.prism-pill-expanded {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 280px;
+  background: var(--prism-bg);
+  border: 1px solid var(--prism-border);
+  border-radius: 16px;
+  box-shadow: var(--prism-shadow-hover);
+  overflow: hidden;
+  transform-origin: bottom right;
+  animation: prism-expand 0.3s var(--prism-spring) forwards;
+}
+
+@keyframes prism-expand {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.prism-pill-expanded.closing {
+  animation: prism-collapse 0.2s ease-out forwards;
+}
+
+@keyframes prism-collapse {
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(5px);
+  }
+}
+
+/* Header */
+.prism-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--prism-border);
+}
+
+.prism-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prism-brand-icon {
+  font-size: 18px;
+}
+
+.prism-brand-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--prism-text);
+  letter-spacing: -0.01em;
+}
+
+.prism-close-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--prism-bg-secondary);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--prism-text-secondary);
+  font-size: 16px;
+  transition: all var(--prism-transition);
+}
+
+.prism-close-btn:hover {
+  background: var(--prism-border);
+  color: var(--prism-text);
+}
+
+/* Score Section */
+.prism-score-section {
+  padding: 20px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--prism-border);
+}
+
+.prism-score-ring {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 12px;
+  position: relative;
+}
+
+.prism-score-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.prism-score-ring-bg {
+  fill: none;
+  stroke: var(--prism-bg-secondary);
+  stroke-width: 6;
+}
+
+.prism-score-ring-fill {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease-out, stroke 0.3s ease;
+}
+
+.prism-score-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--prism-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.prism-score-label {
+  font-size: 12px;
+  color: var(--prism-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Stats Grid */
+.prism-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--prism-border);
+}
+
+.prism-stat {
+  background: var(--prism-bg);
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.prism-stat-count {
+  font-size: 20px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 2px;
+}
+
+.prism-stat-count.critical { color: var(--prism-critical); }
+.prism-stat-count.sensitive { color: var(--prism-sensitive); }
+.prism-stat-count.contextual { color: var(--prism-contextual); }
+
+.prism-stat-label {
+  font-size: 10px;
+  color: var(--prism-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* Actions */
+.prism-actions {
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.prism-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--prism-bg-secondary);
+  border: 1px solid var(--prism-border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--prism-text);
+  transition: all var(--prism-transition);
+}
+
+.prism-action-btn:hover {
+  background: var(--prism-border);
+  transform: translateY(-1px);
+}
+
+.prism-action-btn.primary {
+  background: var(--prism-text);
+  color: var(--prism-bg);
+  border-color: var(--prism-text);
+}
+
+.prism-action-btn.primary:hover {
+  opacity: 0.9;
+}
+
+.prism-action-btn.active {
+  background: var(--prism-critical-bg);
+  border-color: var(--prism-critical);
+  color: var(--prism-critical);
+}
+
+/* ========================================
+   Inline Highlights
+   ======================================== */
+
+.prism-highlight {
+  position: relative;
+  border-radius: 3px;
+  padding: 1px 2px;
+  margin: 0 -2px;
+  cursor: pointer;
+  transition: all var(--prism-transition);
+}
+
+.prism-highlight-critical {
+  background: var(--prism-critical-bg);
+  border-bottom: 2px solid var(--prism-critical);
+}
+
+.prism-highlight-sensitive {
+  background: var(--prism-sensitive-bg);
+  border-bottom: 2px solid var(--prism-sensitive);
+}
+
+.prism-highlight-contextual {
+  background: var(--prism-contextual-bg);
+  border-bottom: 2px solid var(--prism-contextual);
+}
+
+.prism-highlight:hover {
+  filter: brightness(0.95);
+}
+
+/* Input border indicators */
+.prism-input-critical {
+  box-shadow: inset 0 0 0 2px var(--prism-critical) !important;
+}
+
+.prism-input-sensitive {
+  box-shadow: inset 0 0 0 2px var(--prism-sensitive) !important;
+}
+
+.prism-input-contextual {
+  box-shadow: inset 0 0 0 2px var(--prism-contextual) !important;
+}
+
+.prism-input-safe {
+  box-shadow: inset 0 0 0 2px var(--prism-safe) !important;
+}
+
+/* ========================================
+   Tooltip
+   ======================================== */
+
+.prism-tooltip {
+  position: fixed;
+  z-index: 2147483647;
+  max-width: 260px;
+  padding: 12px 14px;
+  background: var(--prism-bg);
+  border: 1px solid var(--prism-border);
+  border-radius: 12px;
+  box-shadow: var(--prism-shadow-hover);
+  pointer-events: auto;
+  animation: prism-tooltip-in 0.2s ease-out;
+}
+
+@keyframes prism-tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prism-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.prism-tooltip-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.prism-tooltip-icon.critical {
+  background: var(--prism-critical-bg);
+  color: var(--prism-critical);
+}
+
+.prism-tooltip-icon.sensitive {
+  background: var(--prism-sensitive-bg);
+  color: var(--prism-sensitive);
+}
+
+.prism-tooltip-icon.contextual {
+  background: var(--prism-contextual-bg);
+  color: var(--prism-contextual);
+}
+
+.prism-tooltip-title {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--prism-text);
+}
+
+.prism-tooltip-body {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--prism-text-secondary);
+  margin-bottom: 12px;
+}
+
+.prism-tooltip-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.prism-tooltip-btn {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid var(--prism-border);
+  background: var(--prism-bg-secondary);
+  color: var(--prism-text);
+  cursor: pointer;
+  transition: all var(--prism-transition);
+}
+
+.prism-tooltip-btn:hover {
+  background: var(--prism-border);
+}
+
+.prism-tooltip-btn.primary {
+  background: var(--prism-text);
+  color: var(--prism-bg);
+  border-color: var(--prism-text);
+}
+
+.prism-tooltip-btn.primary:hover {
+  opacity: 0.85;
+}
+
+/* ========================================
+   Redaction Styles
+   ======================================== */
+
+.prism-redacted {
+  background: var(--prism-bg-secondary);
+  color: var(--prism-text-secondary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+  border: 1px dashed var(--prism-border);
+}
+
+/* ========================================
+   Ghost Mode (Blur)
+   ======================================== */
+
+.prism-ghost-active {
+  filter: blur(8px) !important;
+  user-select: none !important;
+  pointer-events: none !important;
+}
+
+/* ========================================
+   Notification Badge
+   ======================================== */
+
+.prism-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--prism-critical);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: prism-badge-in 0.3s var(--prism-spring);
+}
+
+@keyframes prism-badge-in {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* ========================================
+   Hidden utility
+   ======================================== */
+
+.prism-hidden {
+  display: none !important;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 480px) {
+  #prism-pill {
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .prism-pill-expanded {
+    width: calc(100vw - 24px);
+    max-width: 300px;
+  }
+}

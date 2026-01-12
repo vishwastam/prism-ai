@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Prism AI - Privacy Shield for ChatGPT & Claude",
+  "short_name": "Prism AI",
+  "version": "2.0.0",
+  "description": "Protect your privacy when using AI. Detects and redacts sensitive data like emails, passwords, API keys, and SSNs before you send them to ChatGPT, Claude, or Gemini.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://chat.openai.com/*",
+    "https://chatgpt.com/*",
+    "https://gemini.google.com/*",
+    "https://claude.ai/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chat.openai.com/*",
+        "https://chatgpt.com/*",
+        "https://gemini.google.com/*",
+        "https://claude.ai/*"
+      ],
+      "js": ["content.js"],
+      "css": ["prism.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "Prism AI - Privacy Shield"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "homepage_url": "https://github.com/vishyarjern/prism-ai",
+  "offline_enabled": true
+}
